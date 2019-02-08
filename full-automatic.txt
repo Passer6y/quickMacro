@@ -31,7 +31,7 @@ Function swichIP()
 		End If
 		TracePrint "等待光子APP打开中"
 		ShowMessage "等待光子APP打开中"
-    	i = i + 1
+    	i = i + 1 
     Loop
 	Delay 1000
     // 判断是否在登录页
