@@ -1,0 +1,266 @@
+Function swichIP()
+    Dim ipX,ipY,status
+    KeyPress "Home"
+    Delay 2000
+    ShowMessage "正在打开光子APP"
+    TracePrint "正在打开光子APP"
+    Dim i=1
+    Do
+    	FindMultiColor 0,0,0,0,"DB9612-101010","-67|-4|DB9612-101010,-64|60|DB9612-101010,-2|58|DB9612-101010,-10|7|FFFFFF-101010,-34|27|FFFFFF-101010,-52|48|DB9817-101010,-18|51|DFAE51-101010,-50|18|EFDFC0-101010",0,0.9,ipX,ipY
+    	If ipX > -1 Then
+        	TracePrint "找到光子APP的坐标："&ipX&","&ipY
+        	ShowMessage "APP打开成功"
+        	Tap ipX, ipY
+    	Else
+        	If i = 1 Then 
+        		TracePrint "没找到光子APP的坐标"
+        		ShowMessage "没找到光子APP的坐标"
+        		Exit Do
+        	End If
+    	End If
+    	Delay 100
+		If CmpColorEx("69|77|FFFFFF-101010,395|130|5A3D3D-101010,467|544|F6B051-101010,370|1158|5A3D3D-101010",0.9) = 1 Then
+			ShowMessage "光子APP打开成功"
+			TracePrint "光子APP打开成功"
+			Exit Do
+		End If
+		If CmpColorEx("298|189|5A3D3D-101010,351|431|5A3D3D-101010,367|850|51CDA5-101010,357|1084|0633EF-101010",0.9) = 1 Then
+			ShowMessage "光子APP打开成功（已经登录）"
+			TracePrint "光子APP打开成功（已经登录）"
+			Exit Do
+		End If
+		TracePrint "等待光子APP打开中"
+		ShowMessage "等待光子APP打开中"
+    	i = i + 1
+    Loop
+	Delay 1000
+    // 判断是否在登录页
+    If CmpColorEx("197|553|F6B051-101010,360|545|F6B051-101010,500|547|F6B051-101010,347|635|5A3D3D-101010",0.9) = 1 Then
+        TracePrint "未登录，正在登录"
+        ShowMessage "未登录，正在登录，请提前输好账户信息"
+        status = "0"
+    Else
+        TracePrint "已登录"
+        ShowMessage "已登录"
+        status = "1"
+    End If
+
+    If status = "0" Then 
+        // Login
+        Dim loginX,loginY
+        FindMultiColor 0,0,0,0,"F6B051-101010","196|2|FDEDD7-101010,393|2|F6B051-101010,205|43|5A3D3D-101010",0,0.9,loginX,loginY
+        If loginX > -1 And loginY > -1 Then
+            ShowMessage "登录成功"
+            TracePrint "登录成功"
+            Tap loginX, loginY
+            Delay 2000
+            KeyPress "Home"
+        End If
+    End If
+    Delay 2000
+    If status = "1" Then 
+        // 切换线路
+        Dim swichX,swichY
+        FindMultiColor 0,0,0,0,"51CDA5-101010","-84|63|51CDA5-101010,-5|68|51CDA5-101010,-1|137|51CDA5-101010,70|68|51CDA5-101010,-6|166|5A3D3D-101010",0,0.9,swichX,swichY
+        If swichX > -1 And swichY > -1 Then
+            ShowMessage "正在切换线路"
+            TracePrint "正在切换线路"
+            Tap swichX, swichY
+            Delay 4000
+            KeyPress "Home"
+        End If
+    End If
+End Function
+
+Function closeAd()
+	If CmpColorEx("409|291|D1EAFF-101010,110|330|5AA8DF-101010,87|676|D1EAFF-101010,348|565|61C1FE-101010,230|808|31D7FE-101010,518|800|3CDCFE-101010,369|918|2A2AC1-101010",0.9) = 1 Then
+		TracePrint "有新春活动广告，正在尝试关闭"
+		ShowMessage "正在关闭新春活动广告"
+		Dim intX,intY
+        FindMultiColor 0,0,0,0,"DFDFDF-101010","23|-10|EEEEEE-101010,22|19|F6F6F6-101010,48|22|4C4C4C-101010,21|47|4F4F4F-101010,13|28|D7D7D7-101010,32|9|B7B7B7-101010,30|27|D2D2D2-101010",0,0.9,intX,intY
+        If intX > -1 And intY > -1 Then
+            TracePrint "广告关闭按钮坐标："&intX&","&intY
+            Tap intX, intY
+            Delay 1000
+        End If
+	Else
+		TracePrint "没有新春活动广告"
+	End If
+End Function
+
+Function openBlueApp()
+	Do
+		Dim phoneX,phoneY
+		FindMultiColor 0,0,0,0,"CDD606-101010","26|0|BFBA03-101010,54|3|BEB502-101010,24|4|CBC064-101010,24|42|C49101-101010,22|56|FFFFFF-101010,-2|57|DFA101-101010,53|61|E19C01-101010,47|31|FFFFFF-101010",0,0.9,phoneX,phoneY
+		If phoneX > -1 And phoneY > -1 Then
+			TracePrint "蓝光云APP坐标为："&phoneX&","&phoneY
+			Tap phoneX, phoneY
+			ShowMessage "蓝光云启动成功"
+		End If
+		Delay 100
+		If CmpColorEx("327|101|4D4D4D-101010,298|289|2A2AC1-101010,239|794|3CDCFE-101010,360|1247|4D2E00-101010",0.9) = 1 Then
+			ShowMessage "蓝光云启动成功"
+			TracePrint "蓝光云启动成功"
+			Exit Do
+		End If
+		If CmpColorEx("355|104|FFFFFF-101010,354|397|FFFFFF-101010,362|1191|FFCD00-101010,393|1251|FFFFFF-101010,356|1245|FF9E00-101010",0.9) = 1 Then
+			ShowMessage "蓝光云启动成功"
+			TracePrint "蓝光云启动成功"
+			Exit Do
+		End If
+		ShowMessage "等待蓝光云打开中"
+		TracePrint "等待蓝光云打开中"
+	Loop
+End Function
+
+Function newPhone()
+	Delay 1000
+	KeyPress "Home"
+	Delay 2000
+	ShowMessage "正在打开蓝光云"
+	TracePrint "正在打开蓝光云"
+	openBlueApp()
+	Delay 2000
+	TracePrint "正在判断是否有广告"
+	ShowMessage "正在判断是否有广告"
+	closeAd()
+	ShowMessage "正在进入个人中心"
+	TracePrint "正在进入个人中心"
+	Dim procX,procY
+	FindMultiColor 0,0,0,0,"B0B0B0-101010","1|9|FFFFFF-101010,1|16|BEBEBE-101010,1|27|B5B5B5-101010,-22|46|B0B0B0-101010,9|18|B4B4B4-101010,-9|27|B0B0B0-101010,11|26|B0B0B0-101010,0|6|FFFFFF-101010,8|46|B0B0B0-101010",0,0.9,procX,procY
+	If procX > -1 And procY > -1 Then
+		TracePrint "个人中心的坐标为："&procX&","&procY
+		Tap procX, procY
+		ShowMessage "进入个人中心成功"
+		Delay 1000
+	End If
+	TracePrint "正在进入登录页面"
+	ShowMessage "正在进入登录页面"
+	Dim loginX,loginY
+	FindMultiColor 0,0,0,0,"FFFFFF-101010","1|10|FEFAF1-101010,25|3|E79502-101010,25|11|E79502-101010,24|17|E79503-101010,50|0|FEFAF4-101010,43|5|E89202-101010,54|10|E88F02-101010,47|13|EDA93A-101010,47|18|FBE9CD-101010",0,0.9,loginX,loginY
+	If loginX > -1 And loginY > -1 Then
+		TracePrint "登录页按钮坐标："&loginX&","&loginY
+		Tap loginX, loginY
+		ShowMessage "进入登录页成功"
+		Delay 1000
+	End If
+
+	Dim regX,regY
+	FindMultiColor 0,0,0,0,"4976F2-101010","252|2|4E66F6-101010,510|-2|5357FB-101010",0,0.9,regX,regY
+	If regX > -1 And regY > -1 Then
+		TracePrint "注册按钮的坐标为："&regX&","&regY
+		Tap regX, regY
+		ShowMessage "进入注册页成功"
+		Delay 1000
+		
+	End If
+End Function
+
+Function closeApp()
+	KillApp "com.huang.autorun"
+	KillApp "com.photon.hybrid"
+End Function
+
+
+Function inputInfo(String)
+// 将字符串数据模拟键盘输入到输入框
+	Dim StringArrayLen=len(String)
+	Dim arr(), i
+	For i = 1 To StringArrayLen
+		arr(i-1) = mid(String,i,1)
+	Next
+	For i = 0 To StringArrayLen-1
+		KeyPress arr(i)
+	Next
+	TracePrint Join(arr, "")
+End Function
+
+Function inputPhone()
+	// 定位到手机号输入框
+	Tap 298,325
+	Dim phoneNumber = getPhoneNum()
+	inputInfo(phoneNumber)
+	Delay 1000
+	// 点击 "发送验证码"
+	Tap 582, 405
+	Delay 1000
+	// 定位到输入验证码框
+	Tap 177,410
+	Dim msgCode = getMsgCode(phoneNumber)
+	inputInfo (msgCode)
+	Delay 1000
+	// 昵称
+	Tap 182, 486
+	inputInfo("eee")
+	Delay 1000
+	// 定位到密码框
+	Tap 170, 570
+	inputInfo("1234qwer")
+	Delay 1000
+	// 定位到确认密码框
+	Tap 148, 669
+	inputInfo ("1234qwer")
+	Delay 1000
+	// 邀请
+	Tap 183,746
+	inputInfo ("277273")
+	Delay 1000
+	// 注册
+	Tap 264,869
+End Function
+
+Function getPhoneNum()
+	// 从服务端获取手机号
+	Dim data,res
+	For i = 1 To 20
+		res = URL.Get("http://*.*.*.*/getphone.php")
+		//TracePrint res
+		res = Split(res, "|")
+		If (res(0) = "1") Then 
+			TracePrint "Success GetPhone："&res(1)
+			ShowMessage "Success GetPhone："&res(1)
+			getPhoneNum = res(1)
+			Exit For
+		Else 
+			TracePrint "Failed to getphone:"&res(1)
+			ShowMessage "取号失败，正在重试"
+			Delay 5000
+		End If
+	Next
+
+	
+End Function
+
+Function getMsgCode(phoneNumber)
+	Dim data,res,u
+	
+	u = "http://*.*.*.*/getmsg.php?sid=*&phone="&CStr(phoneNumber)
+	For i=1 To 20
+		Delay 3000
+		res = URL.Get(u)
+		//TracePrint res
+		res = Split(res, "|")
+		If (res(0) = "1") Then 
+			TracePrint "success getmsgcode:"&res(1)
+			ShowMessage "验证码为：" & res(1)
+			getMsgCode = res(1)
+			Exit For
+		Else 
+			TracePrint "第"&i&"次获取验证码:"&res(1)
+			ShowMessage "第"&i&"次获取验证码"
+		End If
+		
+	Next
+	
+
+End Function
+
+
+
+SetScreenScale 720,1280
+log.Open
+swichIP()
+newPhone() 
+//closeApp()
+inputPhone()
+Log.Close
